@@ -9,3 +9,9 @@
 Included: **22 company profiles, image cards, 50 states plus D.C., a federal FAFSA record, start/end fields on every listing, state and deadline filters, a featured slideshow, 24 news streams, 46 source links, bookmarks and keyword alerts.**
 
 The former image background has been removed. Unpublished dates are marked explicitly; company signup is distinguished from an employee vacancy. The registry is broad, not exhaustive. This is the complete Vercel source project and has not been deployed to your account.
+
+## New in 2.1
+
+Card links now open an in-site detail guide with the available story context, dates, requirements, application steps and Kenya guidance. The official source/application remains an explicit button inside that guide. Kenya checks distinguish restrictions, role-specific listing signals, conditional eligibility and unknown support.
+
+Replace the existing GitHub project files with this version and commit. No new service keys are needed for these modal features.

@@ -38,3 +38,14 @@ The complete source directory, including additional AI platforms, scholarship re
 Dates describe the named cycle and program, not personal eligibility. Priority dates are not blanket termination dates. The online form opened before the October 1 date printed in the PDF. The separate online-launch source supports the opening date.
 
 All 22 AI company application/career URLs and evidence descriptions are in `public/opportunity-data.js`. The homepage uses no image background. Sixteen official website preview images were downloaded and are attributed individually in `public/assets/company-images.json`; the six remaining company banners and category illustrations are original SVG artwork. Company marks and images identify the linked company and do not imply endorsement.
+
+## Kenya application context — reviewed October 16, 2026
+
+- Handshake U.S. location and work authorization: https://joinhandshake.com/ai/
+- Outlier permitted work countries and location verification: https://outlier.ai/legal/flexible-working-guidelines
+- Luel contributor/payment conditions: https://www.luel.ai/terms
+- Federal Student Aid non-U.S. citizen eligibility: https://studentaid.gov/understand-aid/eligibility/requirements/non-us-citizens
+- TELUS Digital official Kenya role search (language-specific): https://jobs.telusdigital.com/search/cfm3/arabic-english/jobs/in/country/kenya?ns_category=artificial-intelligence
+- Welo Global official vacancies, including some Kenya/Nairobi role locations: https://jobs.lever.co/weloglobal/?location=Remote
+
+Kenya is absent from the reviewed Outlier work-country table. This is a statement about the policy at review, not an assumption that it can never change. Kenya role listings are role-specific, not blanket acceptance of all Kenyan applicants. Luel payout methods for Kenya were not established from the reviewed public terms. Do not infer acceptance from a generic remote label.

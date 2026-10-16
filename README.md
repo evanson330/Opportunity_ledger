@@ -58,6 +58,18 @@ Filters combine: category AND country AND any keyword. Newly discovered does not
 
 This monitors a broad collection of public sources. It cannot monitor every place where money is involved, access private task dashboards, establish eligibility, file applications, or promise that a program remains open. News reports may describe changes rather than an immediately claimable offer. Every item links out for review.
 
+## Card details and Kenya guidance
+
+Card images, titles, source labels, card actions, featured slides and upcoming-date buttons open a native in-site detail dialog. The guide contains the available story overview, dates, application requirements, application steps, source references, bookmarking and an explicit external application/publisher button. The modal supports Escape, close/backdrop actions, keyboard focus return and a responsive layout. The slideshow pauses while any dialog is open.
+
+News modals contain the available source excerpt and original opportunity context; they do not claim to reproduce the publisher’s complete article. The explicit publisher button opens the complete source. Company/application guides use the project’s reviewed records. No new API key or service is required for the modal.
+
+The Kenya panel distinguishes supported listing signals, confirmed location restrictions, conditional eligibility and unconfirmed support. Policy reviews are dated October 16, 2026 and request a fresh review after 30 days. Handshake’s U.S.-based rule and Outlier’s published work-country list are sourced explicitly. FAFSA guidance distinguishes qualifying U.S. citizenship/noncitizen status from simply being located in Kenya. The official role searches for TELUS Digital and Welo Global included Kenya-specific roles at review; this does not make every vacancy Kenya-eligible. Luel’s Kenya intake and payout support remain unconfirmed.
+
+Guidance covers accurate residence, personally owned verification documents, the task’s equipment/consent needs, and checking legitimate payout support. The modal does not collect IDs, financial records or application documents. It does not provide location-restriction bypasses, false identity details, purchased accounts or benefit-claim misrepresentation. Country guidance is in `public/briefs.js`; maintain its sources as provider policies change. The Browse Kenya-listed roles action narrows to the reviewed explicit Kenya listing signals.
+
+To update your existing GitHub upload, upload the revised files into the same paths and commit to your connected Vercel production branch. Changed feature files include `public/app.js`, `public/index.html`, `public/styles.css` and the new `public/briefs.js`. Include the updated package, documentation and test files when replacing the complete project. No environment-variable changes are needed for this update.
+
 ## Dates, states and company cards
 
 The default collection lists 22 AI companies and contributor platforms with locally hosted images. Sixteen images were retrieved from official social-preview assets; six use original company-name illustrations. Source and image provenance are in `public/assets/company-images.json`. The carousel supports previous/next, slide selection, play/pause, reduced motion, and pausing on hover/focus.

@@ -4,8 +4,8 @@ Reviewed 16 October 2026.
 
 ## Completed
 
-- `npm run check`: passed. Checked 20 JavaScript files, 22 company image cards and their local assets, 51 state/DC calendars, 46 program/company directory links, 24 discovery streams, and Vercel configuration.
-- `npm test`: **49 checks passed; zero failures**. Coverage includes the company directory, image elements, both date fields on every card, the complete state selector, Texas priority timing, federal cutoff separation, unknown dates, slideshow next/previous/dots/pause/keyboard controls, saved collections, searching, preferences, state-aware news, unavailable sources, dates extracted from source text, XML safety, credential isolation, cron authorization and duplicate-email prevention.
+- `npm run check`: passed. Checked 22 JavaScript files, 22 company image cards and their local assets, 51 state/DC calendars, 46 program/company directory links, 24 discovery streams, and Vercel configuration.
+- `npm test`: **64 checks passed; zero failures**. Coverage includes the company directory, image elements, both date fields on every card, the complete state selector, Texas priority timing, federal cutoff separation, unknown dates, slideshow next/previous/dots/pause/keyboard controls, saved collections, searching, preferences, state-aware news, unavailable sources, dates extracted from source text, XML safety, credential isolation, cron authorization and duplicate-email prevention.
 - `npm run build`: passed. Produces the static dashboard; Vercel separately deploys the three API functions.
 - The former background image was removed from source assets and no stylesheet references it.
 - Company imagery: **16 official website social-preview images**, plus **6 original company-name illustrations**. The image manifest records each original URL and fallback. Two featured official images were visually inspected as image assets.
@@ -34,3 +34,14 @@ The calendar is explicitly for **2027–28**, last reviewed **October 16, 2026**
 3. Check `/api/opportunities` and `/api/companies` for actual source availability. Partial outages are expected to be reported honestly.
 4. Configure optional search/cache/cron variables, redeploy, and run the daily job from Vercel's Cron Jobs screen.
 5. If using email, add your verified sender and recipient, run the job, and confirm receipt. Browser-local filters and server-side email filters are separate.
+
+## Version 2.1 checks
+
+- Detail modals were tested from card action links, images, titles, featured slides and date buttons.
+- The guide keeps publication and application dates separate, exposes explicit source buttons, supports bookmarking without closing, closes with Escape and restores focus to the opener. No identity/application form is present.
+- Injected source markup is rendered as text in the modal. External links use HTTP(S) validation and `noopener noreferrer`.
+- Kenya guidance tests cover U.S. location requirements, Outlier’s reviewed country restriction, unconfirmed Luel payout support, FAFSA eligibility categories, role-specific Kenya signals, stale reviews and lookalike source domains.
+- Choosing Kenya-listed alternatives narrows company profiles to reviewed role-specific signals. It does not assert individual eligibility. No location bypass or false-identity workflow is implemented.
+- Story expansion uses the available source excerpt plus original contextual guidance. It does not claim complete publisher article text, independently confirmed personal eligibility or a guaranteed payment.
+
+Browser layout was not newly verified in a real browser; modal behavior was exercised in the simulated DOM. The update does not change existing cron, cache, search-key or email deployment requirements.

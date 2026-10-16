@@ -7,9 +7,10 @@ async function walk(dir){for(const d of await readdir(dir,{withFileTypes:true}))
 for(const dir of ['api','lib','public','scripts','test'])await walk(dir);
 for(const file of files){const r=spawnSync(process.execPath,['--check',file],{encoding:'utf8'});if(r.status){console.error(r.stderr);process.exit(1);}}
 const html=await readFile('public/index.html','utf8');
-for(const asset of ['/styles.css','/app.js','/opportunity-data.js','/assets/education.svg','/assets/favicon.svg'])await readFile('public'+asset);
+for(const asset of ['/styles.css','/app.js','/opportunity-data.js','/briefs.js','/assets/education.svg','/assets/favicon.svg'])await readFile('public'+asset);
 if((await readFile('public/styles.css','utf8')).includes('honeycomb'))throw new Error('Removed background still referenced');
 if(!html.includes('id="feed"'))throw new Error('Dashboard mount missing');
+if(!html.includes('id="opportunity-dialog"'))throw new Error('Opportunity detail dialog missing');
 for(const d of DIRECTORY){if(!CATEGORIES.some(c=>c.id===d.category))throw new Error('Invalid directory category');new URL(d.url);}
 for(const s of STREAMS)new URL(s.url);
 if(STATES.length!==51||AID_WINDOWS.length!==51)throw new Error('Expected all 50 states and D.C.');
