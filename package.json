@@ -1,6 +1,6 @@
 {
   "name": "opportunity-ledger",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -10,7 +10,8 @@
     "build": "node scripts/build.mjs",
     "dev": "node scripts/dev.mjs",
     "test": "node --test test/*.test.mjs",
-    "check": "node scripts/check.mjs"
+    "check": "node scripts/check.mjs",
+    "refresh:images": "node scripts/refresh-company-images.mjs"
   },
   "dependencies": {
     "fast-xml-parser": "^5.5.6"

@@ -1,30 +1,36 @@
-# Validation and handoff
+# Professional edition — validation
 
-Checked on 16 October 2026.
+Reviewed 16 October 2026.
 
-## Completed checks
+## Completed
 
-- `npm run check`: passed. Syntax checks covered 14 JavaScript files, plus directory/category relationships, 30 source links, 17 stream URLs, required dashboard assets, and the Vercel configuration. This validates URL syntax, not the availability of every directory destination.
-- `npm test`: **27 checks passed, zero failures**. Includes RSS and Atom parsing, date handling, URL restrictions, XML declaration rejection, deduplication, official-domain matching, relevance filtering, partial source outages, server-side credential handling, bounded search queries, cron authorization, HTTP method restrictions, keyword/country/category rules, and email escaping/idempotency.
-- A complete mocked scheduled run persisted RSS and search results, delivered one digest to the configured mock recipient, skipped already-sent links on the next run, avoided another paid-query sweep within the day, released its lock, and exposed no credentials in the public response.
-- Dashboard interactions were exercised in a simulated DOM: cached-session refresh, escaping injected feed markup, saving/removing links, source navigation, category filters, keyword search, country filters, preferences, radar matches, mobile-menu controls, dialogs, and retaining links after a failed refresh.
-- `npm run build`: passed. Produces static output in `dist/`; Vercel separately deploys `api/` functions.
-- Live RSS scan at **2026-10-16 04:55:44 UTC**: **17 of 17 streams succeeded**, zero upstream errors, **600 unique links returned** (the configured response cap). All 11 opportunity categories were represented. This is a point-in-time connectivity and parsing check, not an assurance of future upstream availability or current eligibility for every linked program.
+- `npm run check`: passed. Checked 20 JavaScript files, 22 company image cards and their local assets, 51 state/DC calendars, 46 program/company directory links, 24 discovery streams, and Vercel configuration.
+- `npm test`: **49 checks passed; zero failures**. Coverage includes the company directory, image elements, both date fields on every card, the complete state selector, Texas priority timing, federal cutoff separation, unknown dates, slideshow next/previous/dots/pause/keyboard controls, saved collections, searching, preferences, state-aware news, unavailable sources, dates extracted from source text, XML safety, credential isolation, cron authorization and duplicate-email prevention.
+- `npm run build`: passed. Produces the static dashboard; Vercel separately deploys the three API functions.
+- The former background image was removed from source assets and no stylesheet references it.
+- Company imagery: **16 official website social-preview images**, plus **6 original company-name illustrations**. The image manifest records each original URL and fallback. Two featured official images were visually inspected as image assets.
+- Live RSS check at **2026-10-16 05:30:56 UTC**: **24/24 streams succeeded**, returning **600 links** at the configured response cap. The RSS excerpts in that sample did not supply explicit application start/end dates; the application calendar supplies its source-backed dates separately. Unknown news dates remain unknown.
+- Live company-source check in the same run: **16/22 pages reached**, **13 unambiguous hiring/application signals**. The remaining pages were unavailable or needed review. Those counts describe that run, not a promise that every monitored company has a currently available role. The reviewed directory remains accessible during source failures.
+- The scheduled pipeline was tested with mocked search, Redis and email responses; source text can supply opening/closing dates absent from a short snippet. No real email was sent and no search credits were spent.
+
+## Date handling
+
+The 2027–28 calendar uses the official Federal Student Aid state deadline table. Its start field points separately to the September 23, 2026 online FAFSA launch announcement. A state priority date is not presented as the federal cutoff or as an automatic end to all state applications. Program-specific exceptions are summarized on the card. States without one statewide closing date have an unknown or funding-dependent end field.
+
+Article publication and discovery timestamps are never substituted for opening dates. Explicit dates require a year; invalid or ambiguous dates stay unknown. Source-extracted dates are labeled for confirmation, not represented as manually verified terms. Company-wide dates stay unknown when only individual jobs have their own application periods. Structured job posting dates are kept separate from the company's general intake window.
 
 ## Verification limits
 
-- A real browser layout/screenshot check was not available in the build environment. Responsive styles are included; review the page on desktop and mobile after deployment.
-- This project has **not** been deployed to a Vercel account. Account-level build/deploy behavior, cron invocation, access protection, and production networking must be confirmed in your deployment.
-- Live Tavily, Redis, and Resend credentials were not supplied. Those integrations were exercised with mocked responses. No real email was sent and no search credits were spent.
-- A source can change, block a feed, publish an inaccurate report, or close an opportunity after discovery. The dashboard reports unavailable streams and preserves prior results when appropriate. Its source links support review; the software does not verify an applicant's eligibility or guarantee an income.
+A real browser layout/screenshot test was unavailable. Interactions were checked in a simulated DOM, responsive CSS is included, and image assets were inspected separately. Review the desktop and mobile layout after deployment.
 
-## After deploying
+The project has not been deployed into your Vercel account. Live Tavily, Redis and Resend credentials were not supplied; production credentials, cron invocation and email delivery must be confirmed after deployment. Some company pages block automated fetches or render their listings only with JavaScript. The monitor does not treat a generic careers landing page as proof of active hiring.
 
-1. Confirm the home page shows the honeycomb background and both collections load.
-2. Open `/api/opportunities` and confirm that `streams.successful` is greater than zero. A partial outage is displayed by the dashboard.
-3. Search for `Luel` in Explore programs, save its card, and check Saved opportunities.
-4. If using broad daily discovery, add the cache/search/cron variables, redeploy, and manually run the protected job from Vercel's Cron Jobs screen. Confirm the returned `deepSearch` summary and dashboard status.
-5. If using email, configure an allowed sender and your own recipient, run the job, and check delivery. Confirm provider quotas and spending limits. Edit server-side alert filters in environment variables, then redeploy.
-6. Review the desktop and mobile appearance and choose Vercel access protection if desired.
+The calendar is explicitly for **2027–28**, last reviewed **October 16, 2026**. Source-backed calendar records must be maintained for amendments and new cycles. The news stream can discover new notices, but it does not silently overwrite the reviewed calendar using an unverified article. The company registry is broad and editable, not an exhaustive list of every AI company.
 
-No login, payment processing, application submission, or background browser push service is part of this version. The supplied code implements a personal discovery and reading dashboard with optional server-driven email.
+## Deployment review
+
+1. Deploy the complete source to Vercel using the README settings; do not deploy only the static `dist/` folder.
+2. Confirm the company collection displays images, the state calendar filters correctly, and the slideshow controls work on desktop and mobile.
+3. Check `/api/opportunities` and `/api/companies` for actual source availability. Partial outages are expected to be reported honestly.
+4. Configure optional search/cache/cron variables, redeploy, and run the daily job from Vercel's Cron Jobs screen.
+5. If using email, add your verified sender and recipient, run the job, and confirm receipt. Browser-local filters and server-side email filters are separate.

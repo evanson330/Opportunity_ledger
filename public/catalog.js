@@ -1,3 +1,4 @@
+import { AI_COMPANIES,categoryImage,STATES } from './opportunity-data.js';
 export const CATEGORIES = [
   { id: 'all', name: 'All opportunities', short: 'All', icon: 'grid' },
   { id: 'ai-work', name: 'AI & data work', short: 'AI work', icon: 'spark' },
@@ -49,8 +50,10 @@ export const DIRECTORY = [
 ].map(([id,title,summary,url,category,region,eligibility]) => ({
   id: `directory-${id}`, title, summary, url, category, region, eligibility,
   source: new URL(url).hostname.replace(/^www\./,''), type: 'directory',
-  publishedAt: null, checkedAt: '2026-10-16', official: true
-}));
+  publishedAt: null, checkedAt: '2026-10-16', official: true,
+  startsAt:null,endsAt:null,endKind:'unknown',image:categoryImage(category),
+  dateNote:'This source directory does not publish one start and end date for every opportunity.'
+})).filter(item=>item.category!=='ai-work').concat(AI_COMPANIES);
 
 export const STREAMS = [
   ['ai-platforms','AI platform openings','ai-work','varies','("Handshake AI" OR "Luel" OR "Outlier" OR "Alignerr") (tasks OR hiring OR paid OR applications)'],
@@ -70,7 +73,10 @@ export const STREAMS = [
   ['africa-work','African remote and AI work','ai-work','KE','(Kenya OR Africa) ("AI jobs" OR "data annotation" OR "paid research")'],
   ['wwr-feed','We Work Remotely RSS','remote-work','varies',null,'https://weworkremotely.com/remote-jobs.rss'],
   ['ftc-feed','FTC refunds and enforcement','settlements','US',null,'https://www.ftc.gov/feeds/press-release.xml',['refund','settlement','payments','return money']]
-].map(([id,name,category,region,query,url,keywords]) => ({id,name,category,region,query,keywords,
+].concat(Array.from({length:7},(_,i)=>{
+  const names=STATES.slice(i*8,i*8+8).map(state=>'"'+state.name+'"').join(' OR ');
+  return [`fafsa-state-${i+1}`,`FAFSA state notices ${i+1}`,'scholarships','US',`FAFSA (${names}) (opens OR closes OR deadline OR applications)`];
+})).map(([id,name,category,region,query,url,keywords]) => ({id,name,category,region,query,keywords,
   url: url || `https://news.google.com/rss/search?q=${encodeURIComponent(query+' when:30d')}&hl=en-US&gl=US&ceid=US:en`
 }));
 

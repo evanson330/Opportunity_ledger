@@ -1,12 +1,12 @@
 # The Opportunity Ledger
 
-A personal opportunity news desk designed around your honeycomb background. It covers AI tasks and jobs (including Handshake and Luel), remote work, scholarships and FAFSA, grants, refunds, benefits, settlement claims, paid research, competitions, cashback, and business funding.
+A professional opportunity dashboard with a light layout, company images, a featured slideshow, and application calendars. The old image background has been removed. It covers AI tasks and jobs (including Handshake and Luel), remote work, scholarships and FAFSA, grants, refunds, benefits, settlement claims, paid research, competitions, cashback, and business funding.
 
 ## Deploy to your Vercel
 
 1. Extract this ZIP. Upload the **contents of `opportunity-ledger/`** to a new GitHub repository. `package.json`, `vercel.json`, `public/`, `api/`, and `lib/` must be at the repository root. Include `package-lock.json`. Do not upload `node_modules/` or any real `.env` file.
 2. In Vercel, choose **Add New → Project**, import that repository, and select **Other** as the framework. Root Directory: the folder containing `package.json`. Build command: `npm run build`. Output Directory: `dist`. Install command: `npm ci`. Use Node.js **22.x or 24.x**. Keep **Fluid Compute** enabled for the configured function durations.
-3. Deploy. The design, directory, live RSS reader, search/filter controls, bookmarks, and keyword radar work without search API credentials. The first scan can take approximately 10–30 seconds; later requests use a cache. The public API must remain deployed along with the static files; uploading only `dist/` will not run discovery.
+3. Deploy. The design, company directory, state calendars, slideshow, live RSS reader, filters, bookmarks, and keyword radar work without search API credentials. The first scan can take approximately 10–30 seconds; later requests use a cache. The public API must remain deployed along with the static files; uploading only `dist/` will not run discovery.
 4. For the broader daily search, add the four variables in the table below under **Project → Settings → Environment Variables → Production**. Redeploy after changing environment variables.
 5. For email while the site is closed, also add the email variables. After deployment, open Vercel's **Cron Jobs** settings and run the job once to confirm the connected services work. Later runs follow `vercel.json`.
 
@@ -16,9 +16,9 @@ You can alternatively deploy the extracted project from its folder using the off
 
 | Mode | Environment variables | Result |
 | --- | --- | --- |
-| Live RSS and directory | None | 17 monitored RSS streams, 30 source links, filters, bookmarks, and keyword matches while browsing. Cache lives in the current server instance. |
+| Live RSS and directory | None | 24 monitored RSS streams, 46 program/company links, filters, bookmarks, and keyword matches while browsing. Cache lives in the current server instance. |
 | Daily refresh and shared cache | `CRON_SECRET`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Saves daily RSS results across function instances. |
-| Broader daily web discovery | All shared-cache variables plus `TAVILY_API_KEY` | Up to 15 fixed web queries per daily sweep, up to 10 results per query, in addition to RSS. |
+| Broader daily web discovery | All shared-cache variables plus `TAVILY_API_KEY` | Up to 22 fixed web queries per daily sweep, up to 10 results per query, in addition to RSS. |
 | Personal daily email | Shared-cache variables plus `RESEND_API_KEY`, `ALERT_EMAIL`, `ALERT_FROM` | Sends up to 20 newly discovered matches to your configured address. Works with RSS alone or RSS plus web discovery. |
 
 Create a Redis database at [Upstash](https://console.upstash.com/), a search key at [Tavily](https://app.tavily.com/), and an email key at [Resend](https://resend.com/). Existing accounts work. These services can have quotas or charges; check their current plans and set provider spending limits. The site does not make paid search requests when someone simply opens or refreshes it. Paid discovery runs only through the secret-protected scheduled route.
@@ -40,7 +40,7 @@ Email has separate server-side preferences so it can work with the page closed:
 | `ALERT_KEYWORDS` | `Handshake,Luel,FAFSA,tax refund` | Match any term in the title, snippet, or source. Blank = all. |
 | `ALERT_CATEGORIES` | `ai-work,scholarships,tax-refunds` | Restrict to selected category IDs. Blank = all. |
 | `ALERT_REGION` | `US` or `KE` | Restrict to that stream's country focus. Blank = all, including country-varies results. |
-| `DEEP_SEARCH_LIMIT` | `8` | Limit daily query count. Default 16; there are currently 15 searchable queries. |
+| `DEEP_SEARCH_LIMIT` | `8` | Limit daily query count. Default cap 24; there are currently 22 searchable queries. |
 
 Category IDs: `ai-work`, `remote-work`, `scholarships`, `grants`, `tax-refunds`, `benefits`, `settlements`, `research`, `competitions`, `deals`, `startup`.
 
@@ -48,7 +48,7 @@ Filters combine: category AND country AND any keyword. Newly discovered does not
 
 ## How discovery works
 
-- Fifteen Google News RSS queries watch the categories and named AI platforms. Two direct feeds watch We Work Remotely jobs and relevant FTC announcements.
+- Twenty-two Google News RSS queries watch the categories, named AI platforms, and state FAFSA announcements. Two direct feeds watch We Work Remotely jobs and relevant FTC announcements. The 22-company directory is separately rechecked against public application and career pages, with a six-hour cache.
 - RSS scans are cached for 30 minutes. Vercel's edge cache may serve a result for a few additional minutes. The browser checks every ten minutes while open, if enabled. The refresh button retrieves the latest cached briefing; it does not bypass cache limits or spend search credits.
 - A configured cron job runs broader Tavily searches with bounded concurrency, one query per search stream, and a daily sweep guard. Missing keys do not create fake news. Failed upstream sources are reported.
 - Redis preserves a shared briefing, search results, cron locking, and email delivery history. RSS discovery still works without Redis, with instance-local caching.
@@ -57,6 +57,16 @@ Filters combine: category AND country AND any keyword. Newly discovered does not
 - Country labels describe the discovery stream's focus. `varies` means requirements need checking, not that everyone worldwide is eligible. Handshake's U.S. work authorization requirement is called out. FAFSA is U.S. financial aid; completing a form does not itself guarantee a payment. No sensitive application information is collected.
 
 This monitors a broad collection of public sources. It cannot monitor every place where money is involved, access private task dashboards, establish eligibility, file applications, or promise that a program remains open. News reports may describe changes rather than an immediately claimable offer. Every item links out for review.
+
+## Dates, states and company cards
+
+The default collection lists 22 AI companies and contributor platforms with locally hosted images. Sixteen images were retrieved from official social-preview assets; six use original company-name illustrations. Source and image provenance are in `public/assets/company-images.json`. The carousel supports previous/next, slide selection, play/pause, reduced motion, and pausing on hover/focus.
+
+Every card has a start/open date and an end/deadline field. Dates not published by a source stay **Not published**; the software never substitutes discovery or publication dates. RSS extracts only explicit dated phrases. Optional broad web search also requests source text to extract dates absent from short snippets. Extracted dates are labeled and should be confirmed against the source. Country, U.S. state, work type, status and deadline-sort filters are included.
+
+The FAFSA calendar covers all 50 states and D.C. for **2027–28**, plus a separate federal record. Online FAFSA opening is September 23, 2026; state priority, program and final dates are distinct. Start dates refer to the federal form, not separate state award launches. States without one uniform deadline remain unknown or funding-dependent. The federal cutoff is June 30, 2028; individual schools can have earlier dates. The reviewed calendar is dated October 16, 2026 and must be updated when agencies change rules or a new cycle is added. It is not silently rewritten from unverified headlines.
+
+The company checker looks for public application/vacancy signals and active structured JobPosting records. It distinguishes contributor intake from employee vacancies. A reachable careers page alone is not proof of hiring. Sources that block automated access or render only in JavaScript may need manual review; the prior verification date is retained rather than replaced with a false fresh date. Records without a verification within 14 days display Check hiring page. No registry can enumerate every AI company worldwide.
 
 ## Run on your computer
 
@@ -80,14 +90,14 @@ npm run build
 | File | Purpose |
 | --- | --- |
 | `public/index.html`, `styles.css`, `app.js` | Responsive dashboard and browser interactions |
-| `public/assets/honeycomb.png` | Your original uploaded background, unchanged |
-| `public/catalog.js` | Categories, source directory, and discovery queries |
-| `api/opportunities.js` | Public read-only news endpoint; never calls paid search |
+| `public/opportunity-data.js` | Company registry, 51 state/DC calendars, federal FAFSA record and date helpers |
+| `public/catalog.js` | Categories, 46-source directory, and 24 discovery streams |
+| `api/opportunities.js`, `api/companies.js` | Public news and hiring-source endpoints; neither spends search credits |
 | `api/cron.js` | Protected scheduled discovery and personal digest |
 | `lib/` | Feed parsing, search, persistence, alert selection, and delivery |
 | `vercel.json` | Vercel build, function limits, daily cron, and security headers |
 | `.env.example` | Environment variable reference, without credentials |
-| `test/` | Automated behavior checks with mocked search/email providers |
+| `test/` | Date, hiring, slideshow, interaction and provider behavior checks |
 
 To watch more sources, add a fixed RSS stream or query in `public/catalog.js`, rebuild, and redeploy. The keyword search field searches collected results; it does not issue a new unrestricted web query for every keystroke. To change the title or colors, edit `public/index.html` and the CSS variables in `public/styles.css`.
 

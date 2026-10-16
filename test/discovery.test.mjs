@@ -110,7 +110,7 @@ test('complete scheduled workflow caches discoveries and sends each link only on
   };
   try{
     const req={method:'GET',headers:{authorization:'Bearer private-cron-secret'}};
-    const first=mockRes();await cron(req,first);assert.equal(first.statusCode,200);assert.equal(first.body.digest.sent,true);assert.equal(searches,2);assert.equal(emails,1);assert.deepEqual(delivered[0].to,['owner@example.com']);assert.ok(store.has('ledger:feed:v1'));
+    const first=mockRes();await cron(req,first);assert.equal(first.statusCode,200);assert.equal(first.body.digest.sent,true);assert.equal(searches,2);assert.equal(emails,1);assert.deepEqual(delivered[0].to,['owner@example.com']);assert.ok(store.has('ledger:feed:v2'));
     const second=mockRes();await cron(req,second);assert.equal(second.statusCode,200);assert.equal(searches,2);assert.equal(emails,1);assert.equal(second.body.digest.sent,false);assert.equal(store.has('ledger:cron:lock'),false);
     const publicRes=mockRes();await opportunities({method:'GET',headers:{}},publicRes);assert.equal(publicRes.statusCode,200);assert.ok(!JSON.stringify(publicRes.body).includes('private-'));assert.equal(publicRes.body.configuration.deepSearch,true);
   }finally{globalThis.fetch=realFetch;for(const name of names){if(old.get(name)===undefined)delete process.env[name];else process.env[name]=old.get(name);}}

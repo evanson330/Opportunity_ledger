@@ -29,4 +29,12 @@ The complete source directory, including additional AI platforms, scholarship re
 - Upstash Redis REST API: https://upstash.com/docs/redis/features/restapi
 - Resend send-email API and idempotency: https://resend.com/docs/api-reference/emails/send-email
 
-The supplied photograph/graphic is the user's uploaded image, copied without editing to `public/assets/honeycomb.png`. No external fonts, tracking scripts, ads, or third-party browser resources are required.
+## Application calendar and imagery
+
+- Official 2027–28 state deadlines and federal cutoff (pages 1–2): https://studentaid.gov/sites/default/files/2027-28-fafsa-form.pdf
+- Online FAFSA launch announcement, September 23, 2026: https://www.ed.gov/about/news/press-release/us-department-of-education-announces-earliest-fafsa-launch-program-history-second-consecutive-year
+- New York aid context: https://hesc.ny.gov/find-aid/nys-grants-scholarships/tuition-assistance-program-tap
+
+Dates describe the named cycle and program, not personal eligibility. Priority dates are not blanket termination dates. The online form opened before the October 1 date printed in the PDF. The separate online-launch source supports the opening date.
+
+All 22 AI company application/career URLs and evidence descriptions are in `public/opportunity-data.js`. The homepage uses no image background. Sixteen official website preview images were downloaded and are attributed individually in `public/assets/company-images.json`; the six remaining company banners and category illustrations are original SVG artwork. Company marks and images identify the linked company and do not imply endorsement.

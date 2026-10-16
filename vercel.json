@@ -3,7 +3,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": null,
-  "functions": { "api/cron.js": { "maxDuration": 120 }, "api/opportunities.js": { "maxDuration": 60 } },
+  "functions": { "api/cron.js": { "maxDuration": 120 }, "api/opportunities.js": { "maxDuration": 60 }, "api/companies.js": { "maxDuration": 60 } },
   "crons": [{ "path": "/api/cron", "schedule": "0 6 * * *" }],
   "headers": [
     {

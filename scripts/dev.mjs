@@ -5,7 +5,7 @@ import { resolve,extname,sep } from 'node:path';
 import { loadEnvFile } from 'node:process';
 try{loadEnvFile('.env.local');}catch{/* Environment file is optional. */}
 const root=resolve('public');
-const routes={'/api/opportunities':()=>import('../api/opportunities.js'),'/api/cron':()=>import('../api/cron.js')};
+const routes={'/api/opportunities':()=>import('../api/opportunities.js'),'/api/cron':()=>import('../api/cron.js'),'/api/companies':()=>import('../api/companies.js')};
 const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'application/javascript; charset=utf-8','.svg':'image/svg+xml','.png':'image/png'};
 const server=createServer(async(req,res)=>{
   try{

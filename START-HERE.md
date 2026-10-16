@@ -1,13 +1,11 @@
-# Your website is ready to deploy
+# Opportunity Ledger — professional edition
 
-The project is called **The Opportunity Ledger**. Your honeycomb picture is used as its background.
+1. Extract this ZIP.
+2. Put the contents of `opportunity-ledger/` in your own GitHub repository.
+3. Import into Vercel: framework **Other**, build `npm run build`, output `dist`, Node.js 22 or 24. Keep Fluid Compute enabled.
+4. Deploy. Companies, images, calendars, slideshow, source checks and RSS need no search key.
+5. Follow `README.md` for broader daily searches and optional email using your service keys.
 
-1. Extract the ZIP.
-2. Put the contents of the `opportunity-ledger` folder in your own GitHub repository.
-3. Import that repository into Vercel. Choose **Other**, build with `npm run build`, output to `dist`, and use Node.js 22 or 24.
-4. Deploy. The live RSS reader and program directory work without a search API key.
-5. Follow `README.md` to add Tavily + Upstash for broader daily searches, and Resend for email alerts while the website is closed.
+Included: **22 company profiles, image cards, 50 states plus D.C., a federal FAFSA record, start/end fields on every listing, state and deadline filters, a featured slideshow, 24 news streams, 46 source links, bookmarks and keyword alerts.**
 
-**Included:** 11 categories, 30 official program/source links, 17 discovery streams, source-linked news, filters, bookmarks, watched keywords, mobile layout, and optional daily email.
-
-**Important:** This ZIP is the complete source project, not a deployed Vercel website. Broad web search and email require your own environment variables. The site cannot guarantee finding every opportunity or your eligibility for it.
+The former image background has been removed. Unpublished dates are marked explicitly; company signup is distinguished from an employee vacancy. The registry is broad, not exhaustive. This is the complete Vercel source project and has not been deployed to your account.

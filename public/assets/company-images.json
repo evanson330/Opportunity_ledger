@@ -1,0 +1,131 @@
+{
+  "generatedAt": "2026-10-16T05:16:41.496Z",
+  "companies": {
+    "handshake": {
+      "path": "/assets/companies/handshake-official.png",
+      "kind": "Official website social preview",
+      "source": "https://framerusercontent.com/images/0Ww2d39HmLLXo9dHowyJbvf8VQ.png",
+      "page": "https://joinhandshake.com/ai/"
+    },
+    "luel": {
+      "path": "/assets/companies/luel-official.png",
+      "kind": "Official website social preview",
+      "source": "https://www.luel.ai/og/contribute.png",
+      "page": "https://www.luel.ai/contribute"
+    },
+    "outlier": {
+      "path": "/assets/companies/outlier-official.png",
+      "kind": "Official website social preview",
+      "source": "https://framerusercontent.com/assets/W97xgVbkAOe9QWwqhMuBINE.png",
+      "page": "https://outlier.ai/"
+    },
+    "dataannotation": {
+      "path": "/assets/companies/dataannotation-official.png",
+      "kind": "Official website social preview",
+      "source": "https://cdn.prod.website-files.com/6996ec17cbb52cceab20d127/6a3e6d25b62f0f159fdd0f76_data-annotation-open-graph.png",
+      "page": "https://www.dataannotation.tech/"
+    },
+    "alignerr": {
+      "path": "/assets/companies/alignerr.svg",
+      "kind": "Original company-name illustration",
+      "source": "https://www.alignerr.com/"
+    },
+    "mindrift": {
+      "path": "/assets/companies/mindrift-official.jpg",
+      "kind": "Official website social preview",
+      "source": "https://framerusercontent.com/images/sFtnjVDqjjtzbSIbJflIhLP3zLY.jpg",
+      "page": "https://mindrift.ai/"
+    },
+    "mercor": {
+      "path": "/assets/companies/mercor-official.png",
+      "kind": "Official website social preview",
+      "source": "https://www.mercor.com/mercor-logo-white.png",
+      "page": "https://www.mercor.com/experts/"
+    },
+    "telus": {
+      "path": "/assets/companies/telus-official.jpg",
+      "kind": "Official website social preview",
+      "source": "https://jobs.telusdigital.com/system/production/assets/515309/original/telus__social-share.jpg",
+      "page": "https://jobs.telusdigital.com/search/cfm5/ai-community/jobs"
+    },
+    "rws": {
+      "path": "/assets/companies/rws-official.png",
+      "kind": "Official website social preview",
+      "source": "https://www.rws.com/media/fallback/images/web-preview-socials_tcm228-208946.png?v=20261012054233",
+      "page": "https://www.rws.com/artificial-intelligence/train-ai-data-services/trainai-community/"
+    },
+    "oneforma": {
+      "path": "/assets/companies/oneforma.svg",
+      "kind": "Original company-name illustration",
+      "source": "https://www.oneforma.com/projects/"
+    },
+    "crowdgen": {
+      "path": "/assets/companies/crowdgen-official.jpg",
+      "kind": "Official website social preview",
+      "source": "https://i0.wp.com/crowdgen.com/wp-content/uploads/2026/08/crowdgen-statement-A_specimen-block_centered.jpg?fit=1200%2C514&#038;ssl=1",
+      "page": "https://crowdgen.com/"
+    },
+    "clickworker": {
+      "path": "/assets/companies/clickworker-official.png",
+      "kind": "Official website social preview",
+      "source": "https://cdn.clickworker.com/wp-content/uploads/2023/04/graphics-1-4-1.png",
+      "page": "https://www.clickworker.com/clickworker/"
+    },
+    "welocalize": {
+      "path": "/assets/companies/welocalize.svg",
+      "kind": "Original company-name illustration",
+      "source": "https://jobs.lever.co/welocalize"
+    },
+    "invisible": {
+      "path": "/assets/companies/invisible.svg",
+      "kind": "Original company-name illustration",
+      "source": "https://www.invisible.co/careers"
+    },
+    "stellar": {
+      "path": "/assets/companies/stellar.svg",
+      "kind": "Original company-name illustration",
+      "source": "https://www.joinstellar.ai/"
+    },
+    "scale": {
+      "path": "/assets/companies/scale-official.jpg",
+      "kind": "Official website social preview",
+      "source": "https://scale.com/api/og/eyJ0aXRsZSI6IkNhcmVlcnMgYXQgU2NhbGUgQUkgfCBCdWlsZCB0aGUgRnV0dXJlIG9mIEFJIiwiaW1hZ2UiOiIvc3RhdGljL2ltZy9yZXNraW4vaGVhZGVycy9jYXJlZXJzLndlYnAiLCJ2IjoiZmNiMDJjYzcifQ.jpg",
+      "page": "https://scale.com/careers"
+    },
+    "surge": {
+      "path": "/assets/companies/surge-official.png",
+      "kind": "Official website social preview",
+      "source": "https://cdn.prod.website-files.com/68dc970bd6e945ea3fb0f426/68dcfd8def0efcd7e132e3fa_Open%20Graph%20Image.png",
+      "page": "https://surgehq.ai/careers"
+    },
+    "openai": {
+      "path": "/assets/companies/openai-official.png",
+      "kind": "Official website social preview",
+      "source": "https://images.ctfassets.net/kftzwdyauwt9/6iFRMxhUWyxFR6zpThf2Am/1f826b5095ca8854064989ecec465049/SEO_Banner_2400x1350_04.png?w=1600&h=900&fit=fill",
+      "page": "https://openai.com/careers/"
+    },
+    "anthropic": {
+      "path": "/assets/companies/anthropic-official.jpg",
+      "kind": "Official website social preview",
+      "source": "https://www-cdn.anthropic.com/images/4zrzovbb/website/6d4a0d28992ade92d6fa63646fd9c9d318245c6c-2400x1260.jpg",
+      "page": "https://www.anthropic.com/careers"
+    },
+    "cohere": {
+      "path": "/assets/companies/cohere-official.jpg",
+      "kind": "Official website social preview",
+      "source": "https://cdn.sanity.io/images/rjtqmwfu/web3-prod/0750efbc3db33b1a67bc77575525b076f0137f26-1200x630.jpg?w=1200&h=630&q=80&fit=crop&auto=format",
+      "page": "https://cohere.com/careers"
+    },
+    "mistral": {
+      "path": "/assets/companies/mistral-official.jpg",
+      "kind": "Official website social preview",
+      "source": "https://mistral.ai/cms-media/api/media/file/cover-mistral-sovereign%20copie.webp",
+      "page": "https://mistral.ai/careers/"
+    },
+    "huggingface": {
+      "path": "/assets/companies/huggingface.svg",
+      "kind": "Original company-name illustration",
+      "source": "https://huggingface.co/join-us"
+    }
+  }
+}
