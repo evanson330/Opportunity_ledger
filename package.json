@@ -1,0 +1,21 @@
+{
+  "name": "opportunity-ledger",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/dev.mjs",
+    "test": "node --test test/*.test.mjs",
+    "check": "node scripts/check.mjs"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.5.6"
+  },
+  "devDependencies": {
+    "happy-dom": "^21.0.3"
+  }
+}
