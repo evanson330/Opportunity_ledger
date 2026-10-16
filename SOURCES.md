@@ -37,7 +37,7 @@ The complete source directory, including additional AI platforms, scholarship re
 
 Dates describe the named cycle and program, not personal eligibility. Priority dates are not blanket termination dates. The online form opened before the October 1 date printed in the PDF. The separate online-launch source supports the opening date.
 
-All 22 AI company application/career URLs and evidence descriptions are in `public/opportunity-data.js`. The homepage uses no image background. Sixteen official website preview images were downloaded and are attributed individually in `public/assets/company-images.json`; the six remaining company banners and category illustrations are original SVG artwork. Company marks and images identify the linked company and do not imply endorsement.
+All 32 starter AI company application/career URLs and evidence descriptions are in `public/opportunity-data.js`. The homepage uses no image background. Sixteen official website preview images were downloaded and are attributed individually in `public/assets/company-images.json`; the sixteen remaining company banners and category illustrations are original SVG artwork. Company marks and images identify the linked company and do not imply endorsement.
 
 ## Kenya application context — reviewed October 16, 2026
 
@@ -49,3 +49,25 @@ All 22 AI company application/career URLs and evidence descriptions are in `publ
 - Welo Global official vacancies, including some Kenya/Nairobi role locations: https://jobs.lever.co/weloglobal/?location=Remote
 
 Kenya is absent from the reviewed Outlier work-country table. This is a statement about the policy at review, not an assumption that it can never change. Kenya role listings are role-specific, not blanket acceptance of all Kenyan applicants. Luel payout methods for Kenya were not established from the reviewed public terms. Do not infer acceptance from a generic remote label.
+
+## Expanded discovery and starter sources — October 16, 2026
+
+The rotating plan and platform heuristics are project code, not a claim that a third-party directory is complete. Technical request parameters were checked against the official Tavily Search documentation above. `advanced`, up to 20 results, source text and optional freshness filtering are supported. Advanced search currently uses two credits per request; verify current provider prices and account limits.
+
+Additional official recruitment/contributor starting points:
+
+- DataForce by TransPerfect: https://dataforcecommunity.transperfect.com/projects
+- Datavio: https://datavio.ai/
+- CloudFactory data specialist careers: https://www.cloudfactory.com/careers/data-specialist
+- Sama careers: https://www.sama.com/careers
+- Centific careers: https://www.centific.com/company/careers
+- Innodata careers: https://careers.innodata.com/
+- Neevo by Defined.ai: https://www.neevo.ai/
+- TaskVerse by TaskUs: https://www.taskus.com/locations/taskverse/
+- Turing roles: https://work.turing.com/jobs and https://www.turing.com/jobs
+- Toloka corporate careers: https://toloka.ai/careers
+- Toloka contributor transition: https://toloka.ai/annotators — contributor tasks moved to Mindrift; the separate Toloka starter entry is corporate careers.
+
+These links identify official starting points; a listed provider does not imply current tasks, Kenya acceptance, a particular pay rate or guaranteed hiring. Newly discovered domains are separate unreviewed platform leads, and retain their query and source-check evidence.
+
+Large registries are compressed in shared storage and served in pages. Size-limit references: https://vercel.com/docs/functions/limitations and https://upstash.com/docs/redis/troubleshooting/max_request_size_exceeded .

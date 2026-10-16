@@ -1,95 +1,123 @@
-# The Opportunity Ledger
+# Opportunity Ledger 3.0
 
-A professional opportunity dashboard with a light layout, company images, a featured slideshow, and application calendars. The old image background has been removed. It covers AI tasks and jobs (including Handshake and Luel), remote work, scholarships and FAFSA, grants, refunds, benefits, settlement claims, paid research, competitions, cashback, and business funding.
+A Vercel-ready opportunity dashboard with a professional light design, company images, in-site detail guides, Kenya context, a featured slideshow, opening/deadline fields, bookmarks and keyword radar.
 
-## Deploy to your Vercel
+This version fixes the fixed-directory limitation: **new AI recruitment sources found by web discovery are saved as platform leads and added to both AI companies and All programs**. They are visibly distinguished from the reviewed starter directory.
 
-1. Extract this ZIP. Upload the **contents of `opportunity-ledger/`** to a new GitHub repository. `package.json`, `vercel.json`, `public/`, `api/`, and `lib/` must be at the repository root. Include `package-lock.json`. Do not upload `node_modules/` or any real `.env` file.
-2. In Vercel, choose **Add New → Project**, import that repository, and select **Other** as the framework. Root Directory: the folder containing `package.json`. Build command: `npm run build`. Output Directory: `dist`. Install command: `npm ci`. Use Node.js **22.x or 24.x**. Keep **Fluid Compute** enabled for the configured function durations.
-3. Deploy. The design, company directory, state calendars, slideshow, live RSS reader, filters, bookmarks, and keyword radar work without search API credentials. The first scan can take approximately 10–30 seconds; later requests use a cache. The public API must remain deployed along with the static files; uploading only `dist/` will not run discovery.
-4. For the broader daily search, add the four variables in the table below under **Project → Settings → Environment Variables → Production**. Redeploy after changing environment variables.
-5. For email while the site is closed, also add the email variables. After deployment, open Vercel's **Cron Jobs** settings and run the job once to confirm the connected services work. Later runs follow `vercel.json`.
+## Update the website you already uploaded to GitHub
 
-You can alternatively deploy the extracted project from its folder using the official Vercel CLI: `npx vercel`, then `npx vercel --prod`. Complete authentication in your own terminal. The project is prepared for your account; it has not been published for you.
+1. Extract the ZIP and open `opportunity-ledger/`.
+2. Upload its contents into the **same paths** in your existing GitHub repository. Include `api/`, `lib/`, `public/`, `scripts/`, `package.json`, `package-lock.json`, `vercel.json` and `.env.example`. Upload the new company SVG assets too. Do not upload `node_modules/`, `dist/` or real `.env` files.
+3. Commit to the production branch connected to your Vercel project. Vercel should build that commit automatically. Confirm the commit/deployment in Vercel's Deployments screen.
+4. Add the four discovery settings below in **Vercel → Project → Settings → Environment Variables → Production**. Redeploy after adding or changing them.
+5. Run the production daily job once from Vercel's **Cron Jobs** screen. Open **Discovery & coverage** on your website to inspect the recorded queries, failures and platform count.
 
-## Choose how much to connect
+Uploading the source changes the software. It does not create service accounts or activate web discovery without credentials. No service credentials were supplied for this project, and this update has not been deployed to your account.
 
-| Mode | Environment variables | Result |
-| --- | --- | --- |
-| Live RSS and directory | None | 24 monitored RSS streams, 46 program/company links, filters, bookmarks, and keyword matches while browsing. Cache lives in the current server instance. |
-| Daily refresh and shared cache | `CRON_SECRET`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Saves daily RSS results across function instances. |
-| Broader daily web discovery | All shared-cache variables plus `TAVILY_API_KEY` | Up to 22 fixed web queries per daily sweep, up to 10 results per query, in addition to RSS. |
-| Personal daily email | Shared-cache variables plus `RESEND_API_KEY`, `ALERT_EMAIL`, `ALERT_FROM` | Sends up to 20 newly discovered matches to your configured address. Works with RSS alone or RSS plus web discovery. |
+For a new Vercel project: import the GitHub repository, select framework **Other**, install `npm ci`, build `npm run build`, output `dist`, and use Node.js **22.x or 24.x**. The repository root must contain `package.json`. Keep **Fluid Compute enabled**; scan functions have a 180-second maximum. Deploy the complete source, including API functions.
 
-Create a Redis database at [Upstash](https://console.upstash.com/), a search key at [Tavily](https://app.tavily.com/), and an email key at [Resend](https://resend.com/). Existing accounts work. These services can have quotas or charges; check their current plans and set provider spending limits. The site does not make paid search requests when someone simply opens or refreshes it. Paid discovery runs only through the secret-protected scheduled route.
+## Activate deeper discovery
 
-`CRON_SECRET` should be a long random string (at least 32 characters recommended). Generate one locally with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. Vercel sends it as the cron request's bearer token. Never put it or any API key in `public/`, a browser preference, a GitHub commit, or a variable prefixed `VITE_`/`NEXT_PUBLIC_`.
+| Required server setting | Where it comes from |
+| --- | --- |
+| `TAVILY_API_KEY` | Your [Tavily](https://app.tavily.com/) search API key |
+| `UPSTASH_REDIS_REST_URL` | REST URL from your [Upstash Redis](https://console.upstash.com/) database |
+| `UPSTASH_REDIS_REST_TOKEN` | REST token from the same database |
+| `CRON_SECRET` | A long random secret you create; Vercel uses it to authenticate the job |
 
-For Resend, `ALERT_FROM` must use a sender/domain allowed by your Resend account, e.g. `Opportunity Ledger <briefing@yourdomain.example>`. Set `ALERT_EMAIL` to **your** receiving address. Optional `SITE_URL` links the digest back to the deployed website. Email setup is only considered configured when the sender, recipient, key, cache, and cron secret are all present; the first run is the delivery check. No email has been sent during creation of this project.
+Generate a secret locally with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. Keep keys and secrets on the server. Never put them in `public/`, in a GitHub commit, in a URL, or in a variable prefixed `VITE_` or `NEXT_PUBLIC_`.
 
-The daily job is set to **06:00 UTC (09:00 Africa/Nairobi)**. Vercel Hobby supports daily scheduling and may invoke within the scheduled hour. Schedules run in production, not on an ordinary preview deployment. Until shared cache is configured, the scheduled endpoint returns a setup error; normal RSS browsing still works. If you want only on-demand RSS, remove the `crons` entry from `vercel.json`.
+Without these settings, the **32-company starter directory**, **56 program/company links**, **24 RSS streams**, state calendars, images, modals and slideshow remain available. Automatic platform expansion requires the configured search job. No fake discoveries are substituted when a service is unavailable.
 
-## Personalize alerts
+The scheduled job runs daily at **06:00 UTC / 09:00 Nairobi** in production. Vercel Hobby may invoke within the scheduled hour. The cron route reuses a batch completed within the previous 23 hours to avoid duplicate scheduled spending. Extra owner-triggered batches use the separate protected route described below.
 
-In the website's **Preferences**, edit watched keywords, choose a default country focus, and turn auto-refresh or browser notifications on/off. Bookmarks, keywords, and preferences belong to the current browser/device. Browser notifications require permission and an open page; mobile support varies. They are not background push notifications.
+## What the deeper search actually does
 
-Email has separate server-side preferences so it can work with the page closed:
+The independent web-search plan contains **163 queries**:
 
-| Variable | Example | Meaning |
-| --- | --- | --- |
-| `ALERT_KEYWORDS` | `Handshake,Luel,FAFSA,tax refund` | Match any term in the title, snippet, or source. Blank = all. |
-| `ALERT_CATEGORIES` | `ai-work,scholarships,tax-refunds` | Restrict to selected category IDs. Blank = all. |
-| `ALERT_REGION` | `US` or `KE` | Restrict to that stream's country focus. Blank = all, including country-varies results. |
-| `DEEP_SEARCH_LIMIT` | `8` | Limit daily query count. Default cap 24; there are currently 22 searchable queries. |
+| Search lane | Queries | Scope |
+| --- | ---: | --- |
+| AI employers and contributor platforms | 72 | 12 work types across 6 geographic focuses, including Kenya/East Africa, Africa, Europe, Asia, Latin America and worldwide |
+| Other money opportunities | 40 | Remote work, scholarships, grants, refunds, benefits, settlements, paid research, competitions, offers and startup funding |
+| State student aid | 51 | One FAFSA/state-aid search for every state and D.C. |
+
+- Searches default to Tavily **advanced**, requesting up to **20 results per query** and available source text. Established-platform searches have **no publication-age cutoff**; opportunity updates use a one-month window.
+- A saved cursor continues through the plan across batches, then starts another cycle. Queries are interleaved across AI, other money topics and student aid. At default settings a batch runs up to 24 queries; the whole plan is deliberately spread across runs.
+- Recruitment links found in AI source text create follow-up searches. At most one quarter of a batch follows these leads, so the base plan keeps advancing. Follow-up backlog is capped at 500.
+- Recruitment pages and root landing pages with relevant AI/intake signals can become **platform leads**. Blogs, common aggregators, social sites and roundups stay news/discovery material. Domain/ATS-employer identities are deduplicated; known starter platforms are not added again.
+- Available source text can establish an automated recruitment/application signal. It **does not establish ownership, legitimacy, available paid assignments or Kenya acceptance**. Newly discovered cards have no reviewed-official-domain badge and retain explicit ownership-review guidance. No source text means intake remains unconfirmed.
+- The registry retains up to **5,000 newly discovered platforms**, separately from the fixed starter records. Its cap is visible in coverage when reached. Discovered sources become eligible for recheck queries after seven days. An intake signal older than 14 days is displayed as needing a fresh review.
+- Source failures retain earlier records. Search queries, result counts, failures, pending follow-ups, request budgets and last scan appear under **Discovery & coverage**. The progress counter reflects successful latest recorded checks for distinct base-plan queries; it does not mean every platform on the internet has been found.
+- Public page loads, refreshes and search-box keystrokes only read collected data. They do not spend web-search credits. The company endpoint checks only reviewed starter URLs directly; discovered URLs are retrieved by the search provider during protected scans.
+
+A successful query can return zero results. Source text can be missing or incomplete. Search and indexing do not cover every website, language, private group or signed-in task dashboard. Candidate selection is heuristic; review the source before relying on it. New leads use a local AI-work illustration, while the 32 starter companies have individual banners. Sixteen starter images come from official preview assets; sixteen are original company-name illustrations.
+
+## Control search depth and spending
+
+| Setting | Default | Behavior |
+| --- | ---: | --- |
+| `DEEP_SEARCH_LIMIT` | `24` | Queries per batch, range 1–48; set 48 for faster coverage |
+| `SEARCH_DEPTH` | `advanced` | `advanced` or `basic` |
+| `SEARCH_DAILY_LIMIT` | `96` | Requests across scheduled and extra batches per UTC day, range 1–480 |
+| `SEARCH_MONTHLY_CREDIT_LIMIT` | `1600` | Conservative reserved search credits per UTC month, range 2–100000 |
+
+Advanced search currently uses two credits per request; basic uses one. A default 24-query advanced batch reserves up to 48 credits. The local budget counts failed requests conservatively, even if the provider does not charge them. Requests are reserved in shared storage **before** calling search. Daily/monthly counters survive cold starts and extra invocations. When a budget is exhausted, further web searches pause while existing results and RSS remain available.
+
+Set spending limits in your provider account too: these counters cover this deployment's requests, not other apps using your API key. The defaults are not a promise of free service. Consult the provider's current plan and credit pricing. Changing a limit only takes effect after redeployment.
+
+### Run an extra deep batch now
+
+The project includes an owner-only command. Install Node.js 22+, run `npm ci`, and use your actual production URL. Supply `CRON_SECRET` through your terminal environment or an ignored `.env.local` file. For Bash, you can enter it without echoing it:
+
+```bash
+read -r -s -p "Cron secret: " CRON_SECRET
+export CRON_SECRET
+npm run scan -- https://your-project.vercel.app
+unset CRON_SECRET
+```
+
+Run again to advance another batch, within the shared daily/monthly limits. `npm run scan` calls `POST /api/scan` with bearer authentication. It uses the same scan lock and registry as cron, never sends email, and refuses redirects. A public visitor cannot trigger paid searches. No secret is requested or stored by the website. Allow a short edge-cache delay before refreshing company/news results.
+
+`GET /api/discovery` returns read-only coverage metadata. `GET /api/companies` merges starter sources and retained discovered platforms. `GET /api/opportunities` returns RSS plus collected web discoveries. The shared news response retains at most 2,000 links; public feed refreshes retain recent discovery items. Company results are paginated in 128-record pages and collected by the client, so a growing registry does not require a single oversized Vercel response. Larger cache values are compressed. The independent platform registry lasts up to a year without a subsequent write and is refreshed by scheduled scans.
+
+## Optional alerts
+
+Preferences in the site control browser-local keywords, country focus, bookmarks, refreshes and browser notifications. Notifications require permission and an open page. These are not background push notifications.
+
+For a daily email while the page is closed, additionally configure:
+
+| Setting | Meaning |
+| --- | --- |
+| `RESEND_API_KEY` | Your [Resend](https://resend.com/) API key |
+| `ALERT_EMAIL` | Your receiving address |
+| `ALERT_FROM` | Sender/domain permitted by your Resend account |
+| `ALERT_KEYWORDS` | Optional comma-separated terms; match any term, blank means all |
+| `ALERT_CATEGORIES` | Optional comma-separated category IDs, blank means all |
+| `ALERT_REGION` | Optional `US` or `KE` stream focus, blank means all |
+| `SITE_URL` | Your deployed website URL for the email link |
+
+Email also requires shared storage and `CRON_SECRET`. The daily job sends up to 20 unseen matching links, with delivery IDs retained for 90 days. Its settings are separate from browser preferences. An enabled email configuration is not proof of delivery; confirm it after deployment. No real email was sent during development. Remove the email key or recipient and redeploy to stop it.
 
 Category IDs: `ai-work`, `remote-work`, `scholarships`, `grants`, `tax-refunds`, `benefits`, `settlements`, `research`, `competitions`, `deals`, `startup`.
 
-Filters combine: category AND country AND any keyword. Newly discovered does not mean newly published or definitely open. Missing publication dates are explicitly labeled. The first email sends up to 20 matching links; subsequent runs send unseen matches. Seen IDs are retained for 90 days. Removing `ALERT_EMAIL` or `RESEND_API_KEY` and redeploying stops email.
+## Dates, detail guides and Kenya
 
-## How discovery works
+Every card displays an opening/start field and a closing/deadline field. Missing or ambiguous dates remain **Not published**. Publication and discovery times are kept separate. Explicit dates extracted from a source are labeled for confirmation. Platforms do not inherit a single global deadline from an unrelated job listing.
 
-- Twenty-two Google News RSS queries watch the categories, named AI platforms, and state FAFSA announcements. Two direct feeds watch We Work Remotely jobs and relevant FTC announcements. The 22-company directory is separately rechecked against public application and career pages, with a six-hour cache.
-- RSS scans are cached for 30 minutes. Vercel's edge cache may serve a result for a few additional minutes. The browser checks every ten minutes while open, if enabled. The refresh button retrieves the latest cached briefing; it does not bypass cache limits or spend search credits.
-- A configured cron job runs broader Tavily searches with bounded concurrency, one query per search stream, and a daily sweep guard. Missing keys do not create fake news. Failed upstream sources are reported.
-- Redis preserves a shared briefing, search results, cron locking, and email delivery history. RSS discovery still works without Redis, with instance-local caching.
-- URLs and syndicated titles are deduplicated, tracking parameters are normalized, untrusted markup is escaped, malformed dates stay unknown, and dated RSS stories older than 31 days are dropped. A basic relevance filter removes gambling promotions and guaranteed-return pitches; it is not a comprehensive fraud detector.
-- Official-domain labels identify a government or known program domain, not a verified job opening, guaranteed award, or approved personal eligibility.
-- Country labels describe the discovery stream's focus. `varies` means requirements need checking, not that everyone worldwide is eligible. Handshake's U.S. work authorization requirement is called out. FAFSA is U.S. financial aid; completing a form does not itself guarantee a payment. No sensitive application information is collected.
+The reviewed **2027–28 FAFSA** calendar includes all 50 states and D.C., plus the federal cutoff. Its opening field describes the online federal form's September 23, 2026 launch. State priorities, final dates and funding-dependent programs are distinct. The federal cutoff is June 30, 2028; school deadlines can differ. The reviewed calendar is maintained separately from automated headlines.
 
-This monitors a broad collection of public sources. It cannot monitor every place where money is involved, access private task dashboards, establish eligibility, file applications, or promise that a program remains open. News reports may describe changes rather than an immediately claimable offer. Every item links out for review.
+Images, titles, sources and actions on cards open an in-site brief with dates, available story context, requirements, steps, source references, saving and Kenya guidance. The external source button opens the complete publisher story or application. Original contextual text and available excerpts do not claim to reproduce a complete publisher article.
 
-## Card details and Kenya guidance
+Kenya guidance distinguishes reviewed location restrictions, conditional eligibility, role-specific listing signals and unconfirmed country/payout support. Use your own information and documents and confirm legitimate payout support with the provider. No application documents are collected by this site. Provider policy reviews from October 16, 2026 request fresh review after 30 days. Newly discovered platforms do not receive assumed Kenya approval. See `SOURCES.md` and `public/briefs.js` for references.
 
-Card images, titles, source labels, card actions, featured slides and upcoming-date buttons open a native in-site detail dialog. The guide contains the available story overview, dates, application requirements, application steps, source references, bookmarking and an explicit external application/publisher button. The modal supports Escape, close/backdrop actions, keyboard focus return and a responsive layout. The slideshow pauses while any dialog is open.
-
-News modals contain the available source excerpt and original opportunity context; they do not claim to reproduce the publisher’s complete article. The explicit publisher button opens the complete source. Company/application guides use the project’s reviewed records. No new API key or service is required for the modal.
-
-The Kenya panel distinguishes supported listing signals, confirmed location restrictions, conditional eligibility and unconfirmed support. Policy reviews are dated October 16, 2026 and request a fresh review after 30 days. Handshake’s U.S.-based rule and Outlier’s published work-country list are sourced explicitly. FAFSA guidance distinguishes qualifying U.S. citizenship/noncitizen status from simply being located in Kenya. The official role searches for TELUS Digital and Welo Global included Kenya-specific roles at review; this does not make every vacancy Kenya-eligible. Luel’s Kenya intake and payout support remain unconfirmed.
-
-Guidance covers accurate residence, personally owned verification documents, the task’s equipment/consent needs, and checking legitimate payout support. The modal does not collect IDs, financial records or application documents. It does not provide location-restriction bypasses, false identity details, purchased accounts or benefit-claim misrepresentation. Country guidance is in `public/briefs.js`; maintain its sources as provider policies change. The Browse Kenya-listed roles action narrows to the reviewed explicit Kenya listing signals.
-
-To update your existing GitHub upload, upload the revised files into the same paths and commit to your connected Vercel production branch. Changed feature files include `public/app.js`, `public/index.html`, `public/styles.css` and the new `public/briefs.js`. Include the updated package, documentation and test files when replacing the complete project. No environment-variable changes are needed for this update.
-
-## Dates, states and company cards
-
-The default collection lists 22 AI companies and contributor platforms with locally hosted images. Sixteen images were retrieved from official social-preview assets; six use original company-name illustrations. Source and image provenance are in `public/assets/company-images.json`. The carousel supports previous/next, slide selection, play/pause, reduced motion, and pausing on hover/focus.
-
-Every card has a start/open date and an end/deadline field. Dates not published by a source stay **Not published**; the software never substitutes discovery or publication dates. RSS extracts only explicit dated phrases. Optional broad web search also requests source text to extract dates absent from short snippets. Extracted dates are labeled and should be confirmed against the source. Country, U.S. state, work type, status and deadline-sort filters are included.
-
-The FAFSA calendar covers all 50 states and D.C. for **2027–28**, plus a separate federal record. Online FAFSA opening is September 23, 2026; state priority, program and final dates are distinct. Start dates refer to the federal form, not separate state award launches. States without one uniform deadline remain unknown or funding-dependent. The federal cutoff is June 30, 2028; individual schools can have earlier dates. The reviewed calendar is dated October 16, 2026 and must be updated when agencies change rules or a new cycle is added. It is not silently rewritten from unverified headlines.
-
-The company checker looks for public application/vacancy signals and active structured JobPosting records. It distinguishes contributor intake from employee vacancies. A reachable careers page alone is not proof of hiring. Sources that block automated access or render only in JavaScript may need manual review; the prior verification date is retained rather than replaced with a false fresh date. Records without a verification within 14 days display Check hiring page. No registry can enumerate every AI company worldwide.
-
-## Run on your computer
-
-Install Node.js 22 or newer, open a terminal in this folder, then run:
+## Local development and verification
 
 ```bash
 npm ci
 npm run dev
 ```
 
-Open `http://localhost:3000`. For local optional features, copy `.env.example` to `.env.local` and fill only the variables you need. The development server loads that file; Vercel production uses its project environment variables. Opening `index.html` by double-clicking it will not run server functions.
+Open `http://localhost:3000`. Optional local settings belong in ignored `.env.local`. Double-clicking HTML or uploading only `dist/` will not run API discovery.
 
 ```bash
 npm run check
@@ -97,24 +125,18 @@ npm test
 npm run build
 ```
 
-## Project map
+The project includes five Vercel API endpoints and a static dashboard. Main implementation files:
 
 | File | Purpose |
 | --- | --- |
-| `public/index.html`, `styles.css`, `app.js` | Responsive dashboard and browser interactions |
-| `public/opportunity-data.js` | Company registry, 51 state/DC calendars, federal FAFSA record and date helpers |
-| `public/catalog.js` | Categories, 46-source directory, and 24 discovery streams |
-| `api/opportunities.js`, `api/companies.js` | Public news and hiring-source endpoints; neither spends search credits |
-| `api/cron.js` | Protected scheduled discovery and personal digest |
-| `lib/` | Feed parsing, search, persistence, alert selection, and delivery |
-| `vercel.json` | Vercel build, function limits, daily cron, and security headers |
-| `.env.example` | Environment variable reference, without credentials |
-| `test/` | Date, hiring, slideshow, interaction and provider behavior checks |
+| `public/app.js`, `index.html`, `styles.css` | Dashboard, card modals, coverage panel, filters and slideshow |
+| `public/search-plan.js` | 163 interleaved search queries and lane counts |
+| `lib/search.js`, `lib/platforms.js` | Protected search batches, persistence checkpoints, platform leads and follow-ups |
+| `public/opportunity-data.js`, `public/catalog.js` | Starter companies, calendars, category/program directory and RSS streams |
+| `api/cron.js`, `api/scan.js` | Daily scan/digest and protected extra web-search batch |
+| `api/discovery.js`, `api/companies.js`, `api/opportunities.js` | Read-only progress, company and news data |
+| `.env.example`, `vercel.json` | Server settings, function limits and production schedule |
 
-To watch more sources, add a fixed RSS stream or query in `public/catalog.js`, rebuild, and redeploy. The keyword search field searches collected results; it does not issue a new unrestricted web query for every keystroke. To change the title or colors, edit `public/index.html` and the CSS variables in `public/styles.css`.
+Add or adjust search intents in `public/search-plan.js`; add monitored RSS sources in `public/catalog.js`. Rebuild and redeploy changes. There is no application login; optional Vercel deployment protection can restrict a personal site. Public responses contain collected opportunities and search evidence, not your API keys, email settings or device-local bookmarks.
 
-If this is only for personal use, you can enable your chosen Vercel deployment-access protection. There is no application login in this version. The public API exposes the shared news briefing, not your email, API credentials, or browser-local bookmarks.
-
-## Verification
-
-See `VALIDATION.md` for actual checks, limitations, and a deployment checklist. Implementation references are in `SOURCES.md`.
+See `VALIDATION.md` for what was actually tested and what still needs production verification.

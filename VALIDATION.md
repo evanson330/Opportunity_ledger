@@ -1,47 +1,38 @@
-# Professional edition — validation
+# Version 3.0 validation
 
-Reviewed 16 October 2026.
+Reviewed October 16, 2026.
 
-## Completed
+## Completed for this update
 
-- `npm run check`: passed. Checked 22 JavaScript files, 22 company image cards and their local assets, 51 state/DC calendars, 46 program/company directory links, 24 discovery streams, and Vercel configuration.
-- `npm test`: **64 checks passed; zero failures**. Coverage includes the company directory, image elements, both date fields on every card, the complete state selector, Texas priority timing, federal cutoff separation, unknown dates, slideshow next/previous/dots/pause/keyboard controls, saved collections, searching, preferences, state-aware news, unavailable sources, dates extracted from source text, XML safety, credential isolation, cron authorization and duplicate-email prevention.
-- `npm run build`: passed. Produces the static dashboard; Vercel separately deploys the three API functions.
-- The former background image was removed from source assets and no stylesheet references it.
-- Company imagery: **16 official website social-preview images**, plus **6 original company-name illustrations**. The image manifest records each original URL and fallback. Two featured official images were visually inspected as image assets.
-- Live RSS check at **2026-10-16 05:30:56 UTC**: **24/24 streams succeeded**, returning **600 links** at the configured response cap. The RSS excerpts in that sample did not supply explicit application start/end dates; the application calendar supplies its source-backed dates separately. Unknown news dates remain unknown.
-- Live company-source check in the same run: **16/22 pages reached**, **13 unambiguous hiring/application signals**. The remaining pages were unavailable or needed review. Those counts describe that run, not a promise that every monitored company has a currently available role. The reviewed directory remains accessible during source failures.
-- The scheduled pipeline was tested with mocked search, Redis and email responses; source text can supply opening/closing dates absent from a short snippet. No real email was sent and no search credits were spent.
+- `npm run check`: passed. 29 JavaScript files, 32 company image cards/local assets, 51 state/DC calendars, 56 starter source links, 24 RSS streams, 163 distinct web queries and Vercel configuration.
+- `npm test`: **83 checks passed, zero failures**. Includes prior calendar, card, modal, Kenya guidance, slideshow, bookmark, RSS, source-failure and email-idempotency behavior.
+- Added checks cover rotating the entire plan across batches, source-text requirements, unknown ownership and country support, domain and ATS tenant deduplication, follow-up scheduling, stale-source rechecks, retained platforms, daily/monthly limits, reservations before spending, rejected checkpoints, protected extra scans, compressed large-registry storage, bounded company pagination, one-query batch fairness, lock contention, persistent cursor progress and read-only coverage without secrets.
+- Dashboard interactions were exercised in a simulated DOM. New tests verify visible coverage and query evidence, a discovered platform appearing in both collections, its image, review labels and detail modal.
+- `npm run build`: passed. Static dashboard in `dist/`; Vercel separately deploys five API functions. Cron/extra scans allow 180 seconds with Fluid Compute; their shared lock expires after 240 seconds.
+- New starter source URLs were researched through official pages. Ten additional company-name banners are original SVG illustrations. Existing sixteen official preview images are retained, making 32 starter image cards total. Discovered leads use a local category illustration.
+- Search/Redis/email integration was tested with mocked provider responses. Extra batches advance the shared cursor without sending email. Public page refreshes never invoke paid search.
 
-## Date handling
+## Live checks and remaining limits
 
-The 2027–28 calendar uses the official Federal Student Aid state deadline table. Its start field points separately to the September 23, 2026 online FAFSA launch announcement. A state priority date is not presented as the federal cutoff or as an automatic end to all state applications. Program-specific exceptions are summarized on the card. States without one statewide closing date have an unknown or funding-dependent end field.
+A direct-fetch check of the ten additional starter URLs at **2026-10-16 06:42:46 UTC** reached four pages and found four intake signals (Neevo, TaskVerse, Turing and Toloka careers). Six sources were unavailable to that automated fetch; their directory records remain marked for review. Search-engine access and direct HTTP access can differ.
 
-Article publication and discovery timestamps are never substituted for opening dates. Explicit dates require a year; invalid or ambiguous dates stay unknown. Source-extracted dates are labeled for confirmation, not represented as manually verified terms. Company-wide dates stay unknown when only individual jobs have their own application periods. Structured job posting dates are kept separate from the company's general intake window.
+No Tavily, Redis or Resend credentials were supplied. Live advanced-search quality, provider quota behavior, production Redis persistence, Vercel scheduling and delivery must be confirmed after deployment. No search credits were spent and no real email was sent during this update. The code has not been deployed into the user's Vercel account.
 
-## Verification limits
+A real-browser layout/screenshot test was unavailable. Interaction tests use a simulated DOM; desktop and mobile layout need inspection after deployment. Image and CSS changes do not constitute a verified browser render.
 
-A real browser layout/screenshot test was unavailable. Interactions were checked in a simulated DOM, responsive CSS is included, and image assets were inspected separately. Review the desktop and mobile layout after deployment.
+The prior version's live RSS check on October 16 at 05:30:56 UTC reached 24/24 streams and returned 600 links at its cap. Its prior 22-company check reached 16 pages and found 13 intake signals. Those are historical sample results, not current source availability or a live test of the new 163-query service.
 
-The project has not been deployed into your Vercel account. Live Tavily, Redis and Resend credentials were not supplied; production credentials, cron invocation and email delivery must be confirmed after deployment. Some company pages block automated fetches or render their listings only with JavaScript. The monitor does not treat a generic careers landing page as proof of active hiring.
+Candidate platform selection is heuristic. Retrieved source text and an application signal do not prove ownership, legitimacy, personal eligibility, live paid work or Kenya support. New cards explicitly require review and have no reviewed-official badge. Generic signup without source text remains unconfirmed; a negative hiring notice overrides a generic application signal. Existing platforms and ATS tenants are deduplicated; rebrands, multiple domains and aliases can still require manual cleanup.
 
-The calendar is explicitly for **2027–28**, last reviewed **October 16, 2026**. Source-backed calendar records must be maintained for amendments and new cycles. The news stream can discover new notices, but it does not silently overwrite the reviewed calendar using an unverified article. The company registry is broad and editable, not an exhaustive list of every AI company.
+Search providers do not index the whole internet. The registry retains at most 5,000 platform leads and queues at most 500 follow-ups. At least three quarters of a batch advance the base plan when follow-ups are pending. Default daily scheduling covers the complete base plan across multiple days; it does not execute 163 queries at every page load. Budget reservations include failed provider requests and may exceed actual charged credits. Provider-level spending caps remain necessary for keys used elsewhere.
 
-## Deployment review
+Company-wide dates remain unknown when only a particular job has a date. Calendar records remain the reviewed 2027–28 cycle and are not silently changed using unverified headlines. Kenya-specific policy guidance remains dated, source-backed and separate from automatic country-focus queries.
 
-1. Deploy the complete source to Vercel using the README settings; do not deploy only the static `dist/` folder.
-2. Confirm the company collection displays images, the state calendar filters correctly, and the slideshow controls work on desktop and mobile.
-3. Check `/api/opportunities` and `/api/companies` for actual source availability. Partial outages are expected to be reported honestly.
-4. Configure optional search/cache/cron variables, redeploy, and run the daily job from Vercel's Cron Jobs screen.
-5. If using email, add your verified sender and recipient, run the job, and confirm receipt. Browser-local filters and server-side email filters are separate.
+## Deployment verification
 
-## Version 2.1 checks
-
-- Detail modals were tested from card action links, images, titles, featured slides and date buttons.
-- The guide keeps publication and application dates separate, exposes explicit source buttons, supports bookmarking without closing, closes with Escape and restores focus to the opener. No identity/application form is present.
-- Injected source markup is rendered as text in the modal. External links use HTTP(S) validation and `noopener noreferrer`.
-- Kenya guidance tests cover U.S. location requirements, Outlier’s reviewed country restriction, unconfirmed Luel payout support, FAFSA eligibility categories, role-specific Kenya signals, stale reviews and lookalike source domains.
-- Choosing Kenya-listed alternatives narrows company profiles to reviewed role-specific signals. It does not assert individual eligibility. No location bypass or false-identity workflow is implemented.
-- Story expansion uses the available source excerpt plus original contextual guidance. It does not claim complete publisher article text, independently confirmed personal eligibility or a guaranteed payment.
-
-Browser layout was not newly verified in a real browser; modal behavior was exercised in the simulated DOM. The update does not change existing cron, cache, search-key or email deployment requirements.
+1. Upload all revised source files and assets to the connected production branch, then confirm the deployed commit in Vercel.
+2. Confirm card images, detail guides, the slideshow and the new coverage panel on desktop/mobile.
+3. Add the four discovery variables, redeploy and run the production cron job once.
+4. Inspect `/api/discovery`: `ready` should be true; `lastRun`, completed query counts, results/failures and saved platform count should reflect actual execution. Configuration alone does not prove a successful scan.
+5. Run `npm run scan -- https://your-site.vercel.app` from an owner terminal with `CRON_SECRET` in the environment to advance another batch. Confirm the cursor increases and discovered platforms appear after the short edge-cache delay.
+6. Check source failures and provider/account limits. If email is enabled, confirm receipt separately; extra web-search batches never send email.

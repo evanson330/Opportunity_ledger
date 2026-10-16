@@ -7,6 +7,9 @@ import { selectDigestItems,sendDigest } from '../lib/digest.js';
 import { redis } from '../lib/storage.js';
 import cron from '../api/cron.js';
 import opportunities from '../api/opportunities.js';
+import manualScan from '../api/scan.js';
+import progress from '../api/discovery.js';
+import {SEARCH_KEY} from '../lib/search.js';
 const now=Date.parse('2026-10-16T06:00:00Z');
 const stream={id:'test',name:'AI work',category:'ai-work',region:'varies',url:'https://example.com/feed'};
 const xml=`<?xml version="1.0"?><rss version="2.0"><channel><title>Example feed</title><item><title>New AI work - Luel</title><link>https://example.com/jobs/123?utm_source=feed</link><description><![CDATA[<p>Apply &amp; read the requirements.</p>]]></description><pubDate>Thu, 15 Oct 2026 10:00:00 GMT</pubDate><source url="https://www.luel.ai">Luel</source></item></channel></rss>`;
@@ -54,7 +57,7 @@ test('public refresh never calls paid search and reuses warm results',async()=>{
 });
 test('deep searches use server credentials and have a bounded query budget',async()=>{
   let calls=0;const result=await deepSearch({env:{TAVILY_API_KEY:'secret',DEEP_SEARCH_LIMIT:'2'},fetcher:async(url,opts)=>{
-    calls++;assert.equal(url,'https://api.tavily.com/search');assert.equal(opts.headers.Authorization,'Bearer secret');assert.equal(JSON.parse(opts.body).search_depth,'basic');
+    calls++;assert.equal(url,'https://api.tavily.com/search');assert.equal(opts.headers.Authorization,'Bearer secret');assert.equal(JSON.parse(opts.body).search_depth,'advanced');
     return response(JSON.stringify({results:[{url:`https://example.com/${calls}`,title:`Opportunity ${calls}`,content:'Requirements apply'}]}));
   }});assert.equal(calls,2);assert.equal(result.successful,2);assert.equal(result.items.length,2);
 });
@@ -113,5 +116,9 @@ test('complete scheduled workflow caches discoveries and sends each link only on
     const first=mockRes();await cron(req,first);assert.equal(first.statusCode,200);assert.equal(first.body.digest.sent,true);assert.equal(searches,2);assert.equal(emails,1);assert.deepEqual(delivered[0].to,['owner@example.com']);assert.ok(store.has('ledger:feed:v2'));
     const second=mockRes();await cron(req,second);assert.equal(second.statusCode,200);assert.equal(searches,2);assert.equal(emails,1);assert.equal(second.body.digest.sent,false);assert.equal(store.has('ledger:cron:lock'),false);
     const publicRes=mockRes();await opportunities({method:'GET',headers:{}},publicRes);assert.equal(publicRes.statusCode,200);assert.ok(!JSON.stringify(publicRes.body).includes('private-'));assert.equal(publicRes.body.configuration.deepSearch,true);
+    const extra=mockRes();await manualScan({...req,method:'POST'},extra);assert.equal(extra.statusCode,200);assert.equal(extra.body.attempted,2);assert.equal(searches,4);assert.equal(emails,1);assert.equal(JSON.parse(store.get(SEARCH_KEY)).cursor,4);
+    const status=mockRes();await progress({method:'GET',headers:{}},status);assert.equal(status.statusCode,200);assert.equal(status.body.completed,4);assert.equal(status.body.ready,true);assert.ok(!JSON.stringify(status.body).includes('private-'));
+    store.set('ledger:cron:lock','1');const busy=mockRes();await manualScan({...req,method:'POST'},busy);assert.equal(busy.statusCode,409);assert.equal(searches,4);
+
   }finally{globalThis.fetch=realFetch;for(const name of names){if(old.get(name)===undefined)delete process.env[name];else process.env[name]=old.get(name);}}
 });
